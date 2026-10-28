@@ -5,7 +5,7 @@ import subprocess
 import sys
 
 PUBLIC_FILES = {
-    '.gitignore', '.gitattributes', 'README.md', 'SECURITY.md', 'PUBLISHING.md',
+    '.gitignore', '.gitattributes', 'README.md', 'SECURITY.md', 'PUBLISHING.md', 'LICENSE',
     'app.py', 'urls.py', 'review.py', 'semantic.py', 'source_edit.py',
     'requirements.txt', 'requirements-dev.txt', 'pyproject.toml',
     'setup.bat', 'run.bat', 'sample.csv',
