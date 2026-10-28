@@ -1,6 +1,5 @@
 """Scan committed/staged content without printing secrets or verifying them online."""
 import argparse
-import json
 from pathlib import Path
 import subprocess
 import sys
@@ -17,21 +16,30 @@ def main():
     if not files:
         print('Secret scan: no files to scan.')
         return 0
+    try:
+        from detect_secrets.core.scan import scan_file
+        from detect_secrets.settings import default_settings
+    except ImportError:
+        print('Install requirements-dev.txt before scanning; publication blocked.')
+        return 1
+    findings = {}
     with tempfile.TemporaryDirectory() as directory:
         base = Path(directory)
-        for name in files:
-            content = subprocess.check_output(['git', 'show', (':' if args.staged else 'HEAD:') + name])
-            target = base / name
-            target.parent.mkdir(parents=True, exist_ok=True)
-            target.write_bytes(content)
-        result = subprocess.run([sys.executable, '-m', 'detect_secrets', 'scan', '--all-files', '--no-verify', *files], cwd=base, capture_output=True, text=True)
-        if result.returncode:
-            print('Secret scanner could not complete. Install requirements-dev.txt and retry; no scan output was printed.')
-            return 1
         try:
-            findings = json.loads(result.stdout)['results']
-        except (ValueError, KeyError):
-            print('Secret scanner returned an invalid result; publication blocked.')
+            with default_settings() as settings:
+                settings.disable_filters('detect_secrets.filters.common.is_ignored_due_to_verification_policies')
+                for name in files:
+                    content = subprocess.check_output(['git', 'show', (':' if args.staged else 'HEAD:') + name])
+                    target = base / name
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    target.write_bytes(content)
+                    # Avoid CLI file discovery: Windows junctions can otherwise make
+                    # a real file disappear from the scanner's relative-path list.
+                    matches = list(scan_file(str(target.resolve())))
+                    if matches:
+                        findings[name] = [{'line_number': match.line_number, 'type': match.type} for match in matches]
+        except Exception as exc:
+            print('Secret scanner failed closed (' + type(exc).__name__ + '); values are hidden.')
             return 1
         if findings:
             print('Potential secrets detected; values are hidden:')
