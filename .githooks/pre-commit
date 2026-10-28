@@ -1,0 +1,11 @@
+#!/bin/sh
+if [ -x .venv/Scripts/python.exe ]; then
+    project_python=.venv/Scripts/python.exe
+elif [ -x .venv/bin/python ]; then
+    project_python=.venv/bin/python
+else
+    echo "Create .venv and install requirements-dev.txt before committing."
+    exit 1
+fi
+"$project_python" scripts/check_publish.py --staged || exit 1
+"$project_python" scripts/check_secrets.py --staged || exit 1

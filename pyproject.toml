@@ -1,0 +1,6 @@
+[tool.ruff]
+target-version = "py311"
+extend-exclude = [".python", ".venv", ".tools", ".semantic", ".reviews"]
+
+[tool.ruff.lint]
+select = ["E9", "F"]
