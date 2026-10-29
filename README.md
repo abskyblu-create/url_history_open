@@ -4,6 +4,22 @@ Review, organize, and search links from CSV or Excel files before opening select
 
 Instead of opening hundreds of tabs at once, build a manageable reading queue: inspect links, group related resources, keep the useful ones, and open one small batch when ready.
 
+## Screenshots
+
+These screenshots, captured on 29 October 2026, show the running desktop app as visual examples of the interface.
+
+### Before importing links
+
+The initial view provides file selection, filters, search, review decisions, and batch-opening controls.
+
+![Smart URL Review before importing links](docs/screenshots/app-before-import.png)
+
+### Imported library and link actions
+
+The loaded view shows 2,506 unreviewed links, a selected link's details, and the right-click menu for opening or deleting a link.
+
+![Smart URL Review with an imported library and the link context menu](docs/screenshots/imported-library-link-actions.png)
+
 ## Contents
 
 1. [Overview](#1-overview)

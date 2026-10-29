@@ -9,6 +9,8 @@ PUBLIC_FILES = {
     'app.py', 'urls.py', 'review.py', 'semantic.py', 'source_edit.py',
     'requirements.txt', 'requirements-dev.txt', 'pyproject.toml',
     'setup.bat', 'run.bat', 'sample.csv',
+    'docs/screenshots/app-before-import.png',
+    'docs/screenshots/imported-library-link-actions.png',
 }
 PUBLIC_DIRECTORIES = {'.github', '.githooks', 'scripts', 'tests'}
 PUBLIC_SUFFIXES = {'.py', '.md', '.toml', '.yml', '.yaml', '.bat', '.txt'}
